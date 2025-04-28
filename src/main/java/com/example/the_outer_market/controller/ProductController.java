@@ -1,10 +1,10 @@
 package com.example.the_outer_market.controller;
 
 import com.example.the_outer_market.model.Product;
+import com.example.the_outer_market.service.ProductRequest;
 import com.example.the_outer_market.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -20,17 +20,17 @@ public class ProductController {
     }
 
     @PostMapping("/reserve")
-    public boolean reserveProduct(@RequestParam Long productId, @RequestParam int quantity) {
-        return service.reserveProduct(productId, quantity);
+    public Long reserveProducts(@RequestBody List<ProductRequest> productRequests) {
+        return service.reserveProducts(productRequests); // Return reservation ID
     }
 
     @PostMapping("/confirm")
-    public void confirmProduct(@RequestParam Long productId, @RequestParam int quantity) {
-        service.confirmReservation(productId, quantity);
+    public boolean confirm(@RequestParam Long reservationId) {
+        return service.confirmReservation(reservationId);
     }
 
     @PostMapping("/cancel")
-    public void cancelProduct(@RequestParam Long productId, @RequestParam int quantity) {
-        service.cancelReservation(productId, quantity);
+    public boolean cancel(@RequestParam Long reservationId) {
+        return service.cancelReservation(reservationId);
     }
 }
